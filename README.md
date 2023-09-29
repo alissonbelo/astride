@@ -1,21 +1,36 @@
 # Astride
 
-**TODO: Add description**
+O Asset Tracker é uma aplicação Elixir para rastrear compras e vendas de ativos financeiros e calcular ganhos ou perdas não realizados.
 
-## Installation
+## Como Usar
+Inicie o ambiente Elixir com o Mix:
+`iex -S mix`
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `astride` to your list of dependencies in `mix.exs`:
-
+Criar um novo rastreador de ativos:
 ```elixir
-def deps do
-  [
-    {:astride, "~> 0.1.0"}
-  ]
-end
+AssetTracker.new()
+# Retorna: {:ok, #PID<0.198.0>}
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/astride>.
-
+Adicionar uma compra de ativo:
+```elixir
+AssetTracker.add_purchase("AAPL", ~D[2023-09-28], 8, 170.0)
+# Retorna: {:ok, %AssetTracker.State{
+#   assets: %{
+#     "AAPL" => [%{quantity: 8, settle_date: ~D[2023-09-28], unit_price: 170.0}]
+#   }
+# }}
+```
+Adicionar uma venda de ativo:
+```elixir
+AssetTracker.add_sale("AAPL", ~D[2023-10-31], 9, 200.0)
+# Retorna: {:ok, {%AssetTracker.State{
+#   assets: %{
+#     "AAPL" => [%{quantity: 3, settle_date: ~D[2023-09-29], unit_price: 180.0}]
+#   }
+# }, 260.0}}
+```
+Calcular o ganho ou perda não realizado para um ativo:
+```elixir
+AssetTracker.unrealized_gain_or_loss("AAPL", 180.0)
+# Retorna: {:ok, 80.0}
+```
