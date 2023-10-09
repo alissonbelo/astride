@@ -8,12 +8,12 @@ Inicie o ambiente Elixir com o Mix:
 
 Criar um novo rastreador de ativos:
 ```elixir
-AssetTracker.new()
+asset_data = AssetTracker.new()
 # Retorna: {:ok, #PID<0.198.0>}
 ```
 Adicionar uma compra de ativo:
 ```elixir
-AssetTracker.add_purchase("AAPL", ~D[2023-09-28], 8, 170.0)
+asset_data = AssetTracker.add_purchase(asset_data, "AAPL", ~D[2023-09-28], 8, 170.0)
 # Retorna: {:ok, %AssetTracker.State{
 #   assets: %{
 #     "AAPL" => [%{quantity: 8, settle_date: ~D[2023-09-28], unit_price: 170.0}]
@@ -22,7 +22,7 @@ AssetTracker.add_purchase("AAPL", ~D[2023-09-28], 8, 170.0)
 ```
 Adicionar uma venda de ativo:
 ```elixir
-AssetTracker.add_sale("AAPL", ~D[2023-10-31], 9, 200.0)
+asset_data = AssetTracker.add_sale(asset_data, "AAPL", ~D[2023-10-31], 9, 200.0)
 # Retorna: {:ok, {%AssetTracker.State{
 #   assets: %{
 #     "AAPL" => [%{quantity: 3, settle_date: ~D[2023-09-29], unit_price: 180.0}]
@@ -31,6 +31,6 @@ AssetTracker.add_sale("AAPL", ~D[2023-10-31], 9, 200.0)
 ```
 Calcular o ganho ou perda não realizado para um ativo:
 ```elixir
-AssetTracker.unrealized_gain_or_loss("AAPL", 180.0)
+AssetTracker.unrealized_gain_or_loss(asset_data, "AAPL", 180.0)
 # Retorna: {:ok, 80.0}
 ```
